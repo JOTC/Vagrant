@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  db:
+    image: bdsysops/mongodb-2.4
+    ports:
+     - 27017
+
+  api:
+    build: ./api-server
+    depends_on:
+      - db
+    environment:
+      - DB_URL=mongodb://db/jotc
+      - STRIPE_KEY
+    volumes:
+      - ./api-server:/app
+      - /app/node_modules
+    ports:
+      - 8081:9931
+
+  web:
+    image: nginx:1.9.7
+    depends_on:
+      - db
+      - api
+    volumes:
+      - ./www:/app
+      - ./provisioning/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 8080:80
+

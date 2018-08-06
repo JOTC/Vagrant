@@ -24,6 +24,7 @@ mongo jotc --eval 'db.users.insert({
     "classes": true,
     "pictures": true,
     "calendar": true,
-    "users": true
+    "users": true,
+    "payments": true
   }
 })'
